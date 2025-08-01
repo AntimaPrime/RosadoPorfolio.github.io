@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Rosado's Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Rosado's Portfolio</a></h1>
+						<nav class="links">
+							<ul>
+								<li><a href="projects.html">Projects</a></li>
+								<li><a href="work_history.html">Work History</a></li>
+								<li><a href="education.html">Education</a></li>
+								<li><a href="skills_knowledge.html">Skills & Knowledge</a></li>
+								<li><a href="about_me.html">About Me</a></li>
+							</ul>
+						</nav>
+						<nav class="main">
+							<ul>
+								<!--li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li-->
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<section id="menu">
+
+						<!-- Search -->
+							<!--section>
+								<form class="search" method="get" action="#">
+									<input type="text" name="query" placeholder="Search" />
+								</form>
+							</section-->
+
+						<!-- Links -->
+							<section>
+								<ul class="links">
+									<li>
+										<a href="projects.html">
+											<h3>Projects</h3>
+										</a>
+									</li>
+									<li>
+										<a href="work_history.html">
+											<h3>Work History</h3>
+										</a>
+									</li>
+									<li>
+										<a href="education.html">
+											<h3>Education</h3>
+										</a>
+									</li>
+									<li>
+										<a href="skills_knowledge.html">
+											<h3>Skills & Knowledge</h3>
+										</a>
+									</li>
+									<li>
+										<a href="about_me.html">
+											<h3>About Me</h3>
+										</a>
+									</li>
+								</ul>
+							</section>
+
+						<!-- Actions -->
+							<!--section>
+								<ul class="actions stacked">
+									<li><a href="#" class="button large fit">Log In</a></li>
+								</ul>
+							</section-->
+
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post">
+								<header>
+									<div class="title">
+										<h2>Project: Business Financial Analysis</h2>
+									</div>
+									<div class="meta">
+										<time class="published" datetime="2025-07-13">July 13, 2025</time>
+										<a href="about_me.html" class="author"><span class="name">Anthony Rosado</span><img src="images/avatar.png" alt="" /></a>
+									</div>
+								</header>
+								<span style="width:100%; padding: 0px; margin-bottom: 20px;" class="image featured"><img src="projects_images/finance_overall.png" alt="" /></span>
+								<h3>Introduction:</h3>
+								<p>In Progress... will complete soon.
+								</p>
+								<h3>Goal:</h3>
+								<p style="margin: 0px; padding: 0px;">Goal here.
+								</p>
+								<ul>
+									<li>one</li>
+									<li>two</li>
+									<li>three</li>
+									<li>four</li>
+								</ul>
+								<h3>Process:</h3>
+									<h5>Data Acquisition:</h5>
+										<p></p>
+									<h5>Import Libraries and Set Up Database Connection</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+from sqlalchemy import create_engine
+engine = create_engine("sqlite:///F:/SQLite Database/Yahoo.db")</code></pre>
+										<p style="padding-top: 20px;">The requests package was used for sending http requests to the website. The BeautifulSoup package was used to parse the 
+											html content. The sqlalchemy package was used to create a connection to the SQLLite database, the engine object created a connection to the 
+											aforementioned database.
+										</p>
+									<h5>Loop Through Paginated Web Pages</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">i=0
+while i < 300:
+	url = "https://finance.yahoo.com/markets/stocks/most-active/?start=" + str(i) + "&count=100"
+	i=i + 100</code></pre>
+										<p style="padding-top: 20px;">This loop iterated over multiple pages as Yahoo Finance paginates data in blocks of 100.
+										</p>
+									<h5>Send Web Request and Parse HTML</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">headers = {"User-Agent": "Mozilla/5.0..."}
+data_import = requests.get(url, headers=headers)
+soup = BeautifulSoup(data_import.content, 'lxml')</code></pre>
+										<p style="padding-top: 20px;">This establishes a User-Agent to avoid getting blocked while the BeautifulSoup script parses the HTML via an lxml parser.
+										</p>
+									<h5>Extract Table Headers and Initialize DataFrame</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">titles = soup.find_all('th')
+title_top = [title.text.strip() for title in titles]
+df = pd.DataFrame(columns=title_top)</code></pre>
+										<p style="padding-top: 20px;">Headers were extracted and used to define columns of new DataFrame.
+										</p>
+									<h5>Extract Table Row Data</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">column_data = soup.find_all('tr')
+for row in column_data[1:row_length-1]:
+    row_data = row.find_all('td')
+    ind_row_data = [data.text.strip() for data in row_data]
+    df.loc[len(df)] = ind_row_data</code></pre>
+										<p style="padding-top: 20px;">Data is appended row by row into the DataFrame.
+										</p>
+									<h5>Data Cleaning & Validation (Part 1):</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">if len(df) == 0:
+    del df
+    break
+else:
+    df = df.drop(columns=[''])
+    df['date_time'] = pd.Timestamp("now")</code></pre>
+										<p style="padding-top: 20px;">This loop drops empty columns created from visualizations that were unable to be parsed from BeautifulSoup. Additionally,
+											it adds a date/time stamp column. The loop breaks if no data is in the dataframe in order to avoid appending errors.
+										</p>								
+									<h5>Save to Database:</h5>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">try:
+    df.to_sql('stock_info', engine, if_exists='append', index=False)
+except:
+    print('Error updating database')</code></pre>
+										<p style="padding-top: 20px;">The cleaned data is stored in the stock_info table within the SQLLite database. A try/except is used to print error in
+											event that data is not able to be appended.
+										</p>
+
+								<h5>Data Cleaning(Part 2):</h5>
+								<p style="margin: 0px;">Additional data cleaning and transformations were performed in DBeaver using SQL. DBeaver allowed me to verify the data was appended correctly after web-scrapper
+									loop. I created a staging table and applied various transformations to standardize columns for ease of analysis. Below is a few examples, click 
+									<a href="https://github.com/AntimaPrime/Portfolio/blob/main/WebScrapper%20SQL%20Data%20Cleaning">here</a> to view the complete SQL script used to clean data.
+								</p>
+										<pre style="width:100%; padding: 0px; margin: 0px;">
+											<code style="padding: 20px;margin: 0px;">--Simplify Date_Time
+update stock_info_stage
+set Date_Time = DATETIME(Date_Time);
+
+--Fix Price column to only have current price
+update stock_info_stage
+set [Price] = substring(Price, 0, instr(Price,' '));
+
+--Remove M in Volume and Average Volume
+--Verify all values are in millions
+select Volume, Average_Volume
+from stock_info_stage
+where Volume not like '%M%' or Average_Volume not like '%M%';</code></pre>
+								<h5 style="margin-top: 20px;">Data Analysis:</h5>
+								<p>Report in progress... will update soon!</p>
+
+
+
+
+								<h3>Challenges:</h3>
+
+								<h3>Take Aways:</h3>
+
+								<h3>Future Work:</h3>
+																
+								<footer>
+								</footer>
+							</article>
+
+					</div>
+
+				<!-- Footer -->
+					<section id="footer">
+						<ul class="icons">
+							<li><a href="https://github.com/AntimaPrime/Portfolio" class="icon brands fa-github"><span class="label">Github</span></a></li>
+							<li><a href="https://www.linkedin.com/in/anthonyrosado31/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://www.instagram.com/ant_rosado31/?next=%2Fantimaprime%2F" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="mailto:antrosado@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<p class="copyright">&copy; Website Template from <a href="http://html5up.net">HTML5 UP</a>. Stock Images: <a href="https://www.pexels.com">Pexels</a>.</p>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

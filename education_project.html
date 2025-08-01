@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Rosado's Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Rosado's Portfolio</a></h1>
+						<nav class="links">
+							<ul>
+								<li><a href="projects.html">Projects</a></li>
+								<li><a href="work_history.html">Work History</a></li>
+								<li><a href="education.html">Education</a></li>
+								<li><a href="skills_knowledge.html">Skills & Knowledge</a></li>
+								<li><a href="about_me.html">About Me</a></li>
+							</ul>
+						</nav>
+						<nav class="main">
+							<ul>
+								<!--li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Search" />
+									</form>
+								</li-->
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<section id="menu">
+
+						<!-- Search -->
+							<!--section>
+								<form class="search" method="get" action="#">
+									<input type="text" name="query" placeholder="Search" />
+								</form>
+							</section-->
+
+						<!-- Links -->
+							<section>
+								<ul class="links">
+									<li>
+										<a href="projects.html">
+											<h3>Projects</h3>
+										</a>
+									</li>
+									<li>
+										<a href="work_history.html">
+											<h3>Work History</h3>
+										</a>
+									</li>
+									<li>
+										<a href="education.html">
+											<h3>Education</h3>
+										</a>
+									</li>
+									<li>
+										<a href="skills_knowledge.html">
+											<h3>Skills & Knowledge</h3>
+										</a>
+									</li>
+									<li>
+										<a href="about_me.html">
+											<h3>About Me</h3>
+										</a>
+									</li>
+								</ul>
+							</section>
+
+						<!-- Actions -->
+							<!--section>
+								<ul class="actions stacked">
+									<li><a href="#" class="button large fit">Log In</a></li>
+								</ul>
+							</section-->
+
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post">
+								<header>
+									<div class="title">
+										<h2>Project: Education Race/Ethnicity Analysis</h2>
+									</div>
+									<div class="meta">
+										<time class="published" datetime="2025-07-20">July 20, 2025</time>
+										<a href="about_me.html" class="author"><span class="name">Anthony Rosado</span><img src="images/avatar.png" alt="" /></a>
+									</div>
+								</header>
+								<span style="width:100%; padding: 0px; margin-bottom: 20px;" class="image featured"><img src="projects_images/Overall.png" alt="" /></span>
+								<h3>Introduction:</h3>
+								<p>As a teacher, I often noticed that some students required significantly more effort to engage in learning, particularly in subjects like Math and Science, 
+									which already pose challenges for many. I observed a recurring pattern, students who struggled to connect were often from cultural backgrounds different from my own. 
+									Despite creating a safe, welcoming environment and incorporating culturally relevant lessons, engagement gaps persisted. In conversations with colleagues, 
+									I found that their experiences with the same students sometimes differed from mine. This inconsistency led me to explore a deeper question: Does the cultural and ethnic 
+									alignment between students and teachers influence student engagement? 
+								</p>
+								<h3>Goal:</h3>
+								<p>The goal of this data analysis project investigates the ethnic backgrounds of students and teachers 
+									to explore potential patterns that could inform more equitable and effective classroom practices. 
+								</p>
+								<h3>Process:</h3>
+								<h5>Data Acquisition:</h5>
+								<p>Data was acquired from <a href="https://www.cde.ca.gov/">California's Department of Education</a>. The first dataset was the Annual Statewide Enrollment data 
+								disaggregated by student race/ethnicity at county, district, and school levels. The second dataset was the Staff Race/Ethnicity Data disaggregated by
+								race/ethnicity and staff type at county, district, and school levels. The third dataset was the Public Schools and Districts data which provided location 
+								information. All datasets provided county, district, and school codes which allowed for relationships to be made between the datasets.</p>
+								<h4>Data Cleaning:</h4>
+								<h6>SQL:</h6>
+								<p style="width:100%; padding: 0px; margin: 0px;">Initial data cleaning and preperation was performed through Microsoft SQL Server Management Studio 20. 
+									Data from each source was aggregated to the school level and charter school data was ommited. The Staff Race/Ethnicity Data was cleaned and relevant 
+									columns were filtered and exported to an excel file for processing in python. Below is an example of an SQL query made on the Annual Statewide 
+									Enrollment dataset, please refer to my github repository <a href="https://github.com/AntimaPrime/Portfolio/tree/main">here</a>
+									for all query code.
+								</p>
+								<pre style="width:100%; padding: 0px; margin: 0px;">
+								<code>SELECT cds, studentgroup, totalenrollment, subgrouptotal, rate, schoolname 
+FROM [Project Database].[dbo].[stdnt_info] 
+WHERE rtype LIKE 'S' 
+	AND studentgroup NOT LIKE 'HOM' 
+	AND studentgroup NOT LIKE 'FOS'
+	AND studentgroup NOT LIKE 'SWD'
+	AND studentgroup NOT LIKE 'SED'
+	AND studentgroup NOT LIKE 'EL';</code></pre>
+								<br>
+								<p>SQL was used for the joins between each dataset. Left joins were used to omit charter schools, evaluate missing or erroneous data, or otherwise 
+									incongruous data that did not fit the scope of the project. Join query was exported to an excel file to use in data visualization</p>
+									<pre style="width:100%; padding: 0px; margin: 0px;"><code>SELECT a.*, b.[Total Staff Count], b.teacher_group, b.sub_staff_count, c.Latitude, c.Longitude
+FROM [Project Database].dbo.stdnt$ a
+LEFT JOIN [Project Database].dbo.staff$ b
+ON a.cds = b.cds AND b.teacher_group = a.studentgroup
+JOIN [Project Database].dbo.school$ c
+ON a.cds = c.cds
+WHERE b.teacher_group IS NOT NULL</code>
+</pre>
+								<h4>Python:</h4>
+								<p>First, the Staff Race/Ethnicity data needed the County Codes, District Codes, and School Codes to be concatenated and a '0' added before school codes with
+									only 6 digits. Then the data needed a melt tranformation in order to align with the format of the Annual Statewide Enrollment data and allow for a join
+									to relate student and teacher race/ethnicity. This transformation populated new rows for each ethnicity/race and related it to it's respective cds code.
+									Saved output to excel file for joins in SQL. Below is the python code and can also be found on my github repository 
+									<a href="https://github.com/AntimaPrime/Portfolio/tree/main">here</a>.</p>
+								<pre style="width:100%; padding: 0px; margin: 0px;"><code>import pandas as pd
+#import data and put into data frame
+staff = pd.read_excel(f"F:\Data Science\Data for Projects\Project_3_Education_Demographic\stage_data.xlsx",
+                     sheet_name='staff_stage')
+df_staff = pd.DataFrame(staff)
+
+#Checking data types
+df_staff.info()
+
+#Convert cds components into strings to build cds value for joins
+dtype_map = {'County Code':'str', 'District Code': 'str', 'School Code': 'str'}
+df2 = df_staff.astype(dtype_map)
+
+#Add 0 to School Codes that are 6 digits to account for cds structure
+df2['School Code'] = df2['School Code'].apply(lambda x: '0' + x if len(x) == 6 else x)
+df2['cds'] = df2['County Code'] + df2['District Code'] + df2['School Code']
+
+#cast to int type as other tables imported as int
+df2['cds'] = df2['cds'].astype(int)
+
+#melt to "tidy" data for joins
+df3 = df2.melt(id_vars=['cds','Total Staff Count'],
+              value_vars=['AA','AI','AS','FI','HI','PI','WH','MR','NP' ],
+              var_name='teacher_group',
+              value_name='sub_staff_count')
+
+df3.to_excel(f"F:\Data Science\Data for Projects\Project_3_Education_Demographic\stage_staff.xlsx", sheet_name='staff', index=False)</code></pre>
+								<br>
+								<h4>Data Visualization</h4>
+								<p>Data Visualizations were created using Microsoft Power BI. Data was imported and calculations were made in table view, information on the disparity factor
+									calculation is discussed below.	Longitude and latitude were used in conjunction with the disparity factor to populate a map that shows all public schools 
+									and their respective disparity factor. A table was created to show the race/etnicity percentages of both students and teachers. A bar graph was created to 
+									show the overall distribution of race/ethnicity of students. The map and slicer is interactive and most visualizations update information based on the 
+									school selected in either the map or slicer. Please view pictures of the visualizations at the bottom of the post.
+								</p>
+								<h4>Disparity Factor:</h4>
+								<p>The disparity factor (DF), is the average of the sum of differences between ethnicities of students and teachers, aggregated by school or cds. This factor 
+									is used to describe the difference between the etnicity/race of both groups. A DF of 0 represents perfect parity between the ethnicity/race of students
+									and teachers while a DF of 100 represents a complete disparity between both groups. The scale ended up being more logrithmic in nature and further work,
+									discussed in the Future Work section of this article, seeks to create a linear relationship for the disparity factor. In general, a disparity factor
+									of 0 to 4 implies a general alignment in race/etnicity between groups, 5-20 is a significant disparity between race/ethnicity, and 21-100 is a near to 
+									complete disparity in race/etnicity between students and teachers.
+								</p>
+								<h3>Challenges:</h3>
+									<ol>
+										<li>Data cleaning and preperation required transformations of data to align data formats between datasets.</li>
+										<li>The disparity factor calculation was difficult to implement using a grouping method, many methods were evaluated but a weighted disparity factor 
+											was used for readability.</li>
+										<li>Some data did not align between datasets for various reasons and multiple investigations were performed to determine the root cause, specifically 
+											some numerical values were integer data types while others were string data types.</li>
+										<li>I wanted to demonstrate my SQL skills but using python for the data cleaning and transformations would be more efficient.</li>
+										<li>Microsoft Power BI does not allow publishing dashboards without a business account, therefor I can only present screenshots of work done.</li>
+										<li>The design is student focused and omits some teacher data due to joining data in SQL. Discussed further in Future Work section.</li>
+									</ol>
+								<h3>Take Aways:</h3>
+									<ol>
+										<li>Many of the schools with low disparity factor are schools with high populations of White teachers and students, although some schools have both a diverse
+										population of students and teachers.</li>
+										<li>California has a large percentage of Hispanic students (56.55%) and a large percentage of White teachers (56.58%), which accounts for the majority of 
+										disparity.</li>
+										<li>Overall, California has reasonable parity between students and teachers and ongoing efforts to draw in teachers with different cultural backgrounds
+										should improve the disparity even more.</li>
+										<li>Increased parity may lead to increased engagement.</li>
+									</ol>
+								<h3>Future Work:</h3>
+									<ol>
+										<li>Connecting performance data could elucidate how racial and ethnic parity influences educational outcomes.</li>
+										<li>Create values in student data to for race/etnicities not represented to improve relationship between teachers.</li>
+										<li>Designing the Disparity Factor as a Parity Factor and function linearly so that a 100 represents 100% parity between students and teachers.</li>
+										<li>Use Chi-square test to test whether distributions are significantly different.</li>
+									</ol>
+								<span style="width:100%; padding: 0px; margin-top: 40px; margin-bottom: 20px;" class="image featured"><img src="projects_images/Overall.png" alt="" /></span>
+								<span style="width:100%; padding: 0px; margin-bottom: 20px;" class="image featured"><img src="projects_images/Garfield_Elementary.png" alt="" /></span>
+								<span style="width:100%; padding: 0px; margin-bottom: 20px;" class="image featured"><img src="projects_images/McPherson Elementary.png" alt="" /></span>																
+								<footer>
+								</footer>
+							</article>
+
+					</div>
+
+				<!-- Footer -->
+					<section id="footer">
+						<ul class="icons">
+							<li><a href="https://github.com/AntimaPrime/Portfolio" class="icon brands fa-github"><span class="label">Github</span></a></li>
+							<li><a href="https://www.linkedin.com/in/anthonyrosado31/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://www.instagram.com/ant_rosado31/?next=%2Fantimaprime%2F" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="mailto:antrosado@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<p class="copyright">&copy; Website Template from <a href="http://html5up.net">HTML5 UP</a>. Stock Images: <a href="https://www.pexels.com">Pexels</a>.</p>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
